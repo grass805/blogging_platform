@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<body>
+        
+    <div class="container mb-5">
+            <h3 class="text-info">Change post category</h3>
+    </div>
+    
+    
+    
+    <div class="table-responsive table-responsive-sm table-responsive-md ">
+    <table class="table table-bordered" id="table_id">
+        <thead class="thead-light">
+            <tr>
+                <!--隱藏: style="display:none;" style="visibility:hidden" style=\"display:none\"-->
+                <th scope="col" style="display:none;">id</th>
+                <th scope="col" class="col-md-5">category</th>
+                <th scope="col" class="col-md-2"><span style="display:none;">SELECT</span></th>
+                <th scope="col" class="col-md-2"><span style="display:none;">DELETE</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in blog_category %}
+            <tr>
+                <td style="display:none;">{{ i.id }}</td>
+                <td class="text-nowrap">{{ i.cate }}</td>
+                <td ><input type="button" id="sel_cate" value="SELECT"></td>
+                <td ><input type="button" id="del_cate" value="DELETE"></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td scope="row" style="display:none;">id</td>
+                <form action="/manage/cate/add" method="POST">
+                    <td><input class="col-md-12" type="text" name="new_cate" maxlength="100" required></td>
+                    <td><input type="submit" id="add" value="ADD"></td>
+                </form>
+                <td><span style="display:none;">DELETE</span></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+        
+
+
+    <script>
+        (function()
+        {
+            $('input[id="sel_cate"]').on('click', function()
+            {
+                var td = event.srcElement.parentElement;
+                var rownum = td.parentElement.rowIndex;
+                //<!--var tr=event.srcElement.parentElement.parentElement.rowIndex;//获取每一行的索引-->
+                
+                //<!--获取html表格元素 -->
+                var tab = document.getElementById("table_id");
+                
+                var res = tab.rows[rownum].cells[0].innerHTML;
+                var data = { "cate_id": JSON.stringify( [res] ) };
+                $.ajax({
+    　　                    type: "get",
+    　　                    url: "{{ url_for('blogs.select_cate', post_id=post_id) }}",
+    　　                    data: data,
+    　　                    dataType: "json",
+                            complete: function(){ window.location.href="{{ url_for('blogs.edit_post', post_id=post_id) }}";}
+　　                    });
+            });
+        })();
+    </script>
+
+
+    <script>
+        (function()
+        {
+            $('input[id="del_cate"]').on('click', function()
+            {
+                var td = event.srcElement.parentElement;
+                var rownum = td.parentElement.rowIndex;
+                //<!--var tr=event.srcElement.parentElement.parentElement.rowIndex;//获取每一行的索引-->
+                
+                //<!--获取html表格元素 -->
+                var tab = document.getElementById("table_id");
+                
+                var res = tab.rows[rownum].cells[0].innerHTML;
+                var data = { "delete_cate": JSON.stringify( [res] ) };
+                $.ajax({
+    　　                    type: "get",
+    　　                    url: "{{ url_for('blogs.delete_cate') }}",
+    　　                    data: data,
+    　　                    dataType: "json",
+                            complete: function(){ window.location.href="{{ url_for('blogs.manage_cate', post_id=post_id) }}";}
+　　                    });
+            });
+        })();
+    </script>
+
+{% endblock %}
+

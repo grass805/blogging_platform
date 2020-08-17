@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<main class="container col-12 pt-5">
+        <header class="d-flex flex-column justify-content-around">
+            <h1 class = "text-center display-4 my-4 font-weight-bold">
+                <!--<a> tag is used to link from one page to another.-->
+                <a href="{{url_for('index')}}" class="text-important"><strong>SharedBlog</strong></a>
+            </h1>
+            <h2 class="text-muted text-center my-2">
+                <p >A Blogging Plateform.</p>
+            </h2>
+        </header>
+</main>
+
+<div class="container col-md-8 mt-5 col-12">
+    <div class="d-flex flex-row justify-content-around">
+        <div class="col-md-3 text-center font-weight-bold">
+            <div class="py-5 px-1 bg-light border border-primary rounded"><a href="{{ url_for('users_signup')}}">SIGNUP</a></div>
+        </div>
+        <div class="col-md-3 text-center font-weight-bold">
+            <div class="py-5 px-1 bg-light border border-primary rounded"><a href="{{ url_for('users_login') }}">LOGIN</a></div>
+        </div>
+    </div>
+</div>
+      <!--
+<div class="col-md-6 d-flex flex-row justify-content-around">
+        <span class="border border-primary rounded-lg">
+            
+        </span>
+        <span class="border border-primary rounded-lg">
+                
+        </span>
+    </div>
+-->
+<!--{% set n=0 %}-->
+<div class="container list_group mt-5 mb-5 col-12 col-md-12">
+    
+    {% for i in posts | reverse %}
+    <div class="list-group-item list-group-item-action d-flex flex-column" >
+        <div class=" d-flex flex-row ">
+            {% set user=user_list.pop() %}  <!--一直pop最後一個-->
+            <div class="col-md-8 col-7 ">
+                <p class="my-auto text-primary text-left font-weight-bold"><a href="{{ url_for('blogs.show_post', post_id=i.id)}}">{{ i.title }}</a></p>
+            </div>
+            <div class="col-md-4  col-5 d-flex flex-column ">
+                <p class=" my-auto text-dark">author: <span class="font-weight-bold">{{ user.author }}</span>    </p>
+                <p class=" my-auto text-dark">blog: <a  class="font-weight-bold" href="{{ url_for('blogs.home', user_id=user.id)}}"> {{ user.blog_title }}    </a></p>
+                <small class=" my-auto text-muted article_time_stamp">{{i.timestamp}}</small>
+            </div>   
+        </div>
+    </div>
+    {% endfor %}
+    <script>
+        var time_item_list=$('.article_time_stamp');
+        //debugger;
+        $.each(time_item_list, function(i, item){
+            //console.log($(item).text());
+            let time_zone = 8;
+            let time_str = $(item).text();
+            var local_date= moment.utc(time_str).utcOffset(time_zone).format('YYYY-MM-DD HH:mm:ss');
+            $(item).text(local_date);
+
+            //var someDate = new Date(time_str); //會根據瀏覽器+本地時差 e.g GMT+0800 (台北標準時間)
+            //var n = someDate.toString();
+            //var n = someDate.toLocaleString(); 不會讀到 somedate加上的時差            
+            // var local_date= moment(someDate).format('YYYY-MM-DD HH:mm:ss'); //不會讀到 somedate加上的時差
+            // var local_date= moment.utc(someDate).format('YYYY-MM-DD HH:mm:ss'); //!!!變成-0800小時
+            // var local_date= moment().utcOffset(someDate).format('YYYY-MM-DD HH:mm:ss'); //讀不到時間物件的格式
+            // var local_date= moment().utcOffset(n).format('YYYY-MM-DD HH:mm:ss');//變成現在時間了OAO
+            //document.write('<small class=" my-auto text-muted" >'+local_date+'</small>');
+        });
+        
+    </script>
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+

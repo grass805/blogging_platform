@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% if if_owner(user, current_user) %}
+<div class="container mb-5">
+<div class="col-md-2 col-4 font-weight-bold float-right">
+        <div class="py-2 px-1 bg-light border border-info rounded  text-center"><a class="text-info" href="{{ url_for('blogs.edit_about')}}">EDIT</a></div>
+</div>
+</div>
+{% endif %}
+
+<article class="mb-5 mt-5">
+    <h4>Author: {{ user.author }}</h4>
+    <hr>
+    <h3>About</h3>
+    <div class="new-content">{{user.about}}</div>
+</article>
+
+<!--textarea多行文本  换行保存的时候，其实保存的是‘\n’,直接再读取的textarea多行文本里是没有问题的
+但是要放在页面上展示，‘\n’不会换行，所以在多行文本框保存的时候，要先进行转换，'\n’转换成‘<br/>’标签，这样可以直接读取成换行展示-->
+<script>
+    $(function(){
+        var element = $("div[class='new-content']");
+        var temp =  element.text().replace(/\n/g,'<br/>');
+        element.html(temp);
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mb-4">
+        <h3 class="text-info">Category: <p><h4 class="text-info">{{ cate.cate }}</h4></p></h3>
+</div>
+
+{% if if_owner(user, current_user) %}
+<div class="container mb-3 d-flex flex-row justify-content-end">
+        <div class=" col-md-2 col-5 py-2 px-1 bg-light border border-info rounded  text-center ">
+                <a class="text-info font-weight-bold" href="{{ url_for('blogs.manage_post')}}">MANAGE</a>
+        </div>
+</div>
+{% endif %}
+
+<div class="list_group mb-5">
+    {% for i in cate_posts | reverse %}
+    <div class="list-group-item list-group-item-action flex-column" >
+        <div class="d-flex w-100 justify-content-between">                
+                <h5 class="mb-1">
+                    <a class="text-info" href="{{ url_for('blogs.show_post', post_id=i.id)}}">{{ i.title }}</a>
+                </h5>
+                <div >
+                    <small class="text-muted article_time_stamp">{{ i.timestamp }}</small>
+                </div>   
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

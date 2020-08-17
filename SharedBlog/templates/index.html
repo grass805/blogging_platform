@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<title>{% block title %}SharedBlog{% endblock %}</title>  <!--頁面標籤-->
+
+
+<main class="container col-md-10 col-12 pt-5">
+        <header class="d-flex flex-column justify-content-around">
+            <h1 class = "text-center display-4 my-4 font-weight-bold">
+                <!--<a> tag is used to link from one page to another.-->
+                <a href="{{url_for('index')}}" class="text-important"><strong>SharedBlog</strong></a>
+            </h1>
+            <h2 class="text-muted text-center my-2">
+                <p >A Blogging Plateform.</p>
+            </h2>
+        </header>
+</main>
+
+<div class="container col-md-6 mt-5 col-12">
+    <div class="d-flex flex-row justify-content-around">
+        <div class="col-md-3 text-center font-weight-bold">
+            <div class="py-5 px-1 bg-light border border-primary rounded"><a href="{{ url_for('users_signup')}}">SIGNUP</a></div>
+        </div>
+        <div class="col-md-3 text-center font-weight-bold">
+            <div class="py-5 px-1 bg-light border border-primary rounded"><a href="{{ url_for('users_login') }}">LOGIN</a></div>
+        </div>
+    </div>
+</div>
+      <!--
+<div class="col-md-6 d-flex flex-row justify-content-around">
+        <span class="border border-primary rounded-lg">
+            
+        </span>
+        <span class="border border-primary rounded-lg">
+                
+        </span>
+    </div>
+-->
+
+<div class="container list_group mt-5 mb-5 col-12 col-md-10">
+    
+    {% for i in posts | reverse %}
+    <div class="list-group-item list-group-item-action d-flex flex-column" >
+        <div class=" d-flex flex-row ">
+            {% set user=user_list.pop() %}  <!--一直pop最後一個-->
+            <div class="col-md-8 col-7 ">
+                <p class="my-auto text-primary text-left font-weight-bold"><a href="{{ url_for('blogs.show_post', post_id=i.id)}}">{{ i.title }}</a></p>
+            </div>
+            <div class="col-md-4  col-5 d-flex flex-column ">
+                <p class=" my-auto text-dark">author: <span class="font-weight-bold">{{ user.author }}</span>    </p>
+                <p class=" my-auto text-dark">blog: <a  class="font-weight-bold" href="{{ url_for('blogs.home', user_id=user.id)}}"> {{ user.blog_title }}    </a></p>
+                
+                <small class=" my-auto text-muted article_time_stamp">{{i.timestamp}}</small>
+            </div>   
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+<!-- Footer -->
+    <!--https://getbootstrap.com/docs/4.0/examples/sticky-footer/-->
+    <!-- F12自行觀察原檔-->
+    <!-- 裡面不要有<hr>會跑掉-->
+<footer class="footer d-flex justify-content-center" >
+    <small >codes on 
+            <a href="https://github.com/grass805/" target="_blank">GitHub</a><!--target="_blank": 在新分頁開啟連結-->
+    </small>
+</footer>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container col-md-10">
+        <header class="d-flex flex-column justify-content-around mt-5">
+            <h1 class = " display-5 my-4 float-right">
+                <a href="{{url_for('index')}}" class="text-important">SharedBlog</a>
+            </h1>
+            <div class="d-flex flex-row justify-content-start align-items-baseline">
+            <h1 class="col-md-3 text-center display-4 my-4 "><strong class="text-dark">ERROR</strong></h1>
+            <h3 class="col-md-5 text-muted text-center my-2">Somthing went wrong...</h3>
+            </div>
+        </header>
+</main>
+
+<div class="container col-md-4 mt-5 ">
+    <div class="d-flex flex-column ">
+        <div class="text-dark font-weight-bold mb-2">
+            {{error1}}
+        </div>
+        <div class="text-secondary font-weight-bold mb-5">
+            {{error2}}
+        </div>
+    </div>    
+</div>
+
+{% endblock %}
+
+
+
+

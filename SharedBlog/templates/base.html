@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <title>{% block title %}SharedBlog{% endblock %}</title>  <!--頁面標籤-->
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" crossorigin="anonymous">
+        <!-- customized css-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/stickyfooter.css') }}" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment-with-locales.min.js" integrity="sha512-qSnlnyh7EcD3vTqRoSP4LYsy2yVuqqmnkM9tW4dWo6xvAoxuVXyM36qZK54fyCmHoY1iKi9FJAUZrlPqmGNXFw==" crossorigin="anonymous"></script>
+    </head>
+<body>
+    
+        
+    {% block body %} {% endblock %}
+    
+    <script>
+        var time_item_list=$('.article_time_stamp');
+        //debugger;
+        $.each(time_item_list, function(i, item){
+            //console.log($(item).text());
+            let time_zone = 8;
+            let time_str = $(item).text();
+            var local_date= moment.utc(time_str).utcOffset(time_zone).format('YYYY-MM-DD HH:mm:ss');
+            $(item).text(local_date);
+    
+            //var someDate = new Date(time_str); //會根據瀏覽器+本地時差 e.g GMT+0800 (台北標準時間)
+            //var n = someDate.toString();
+            //var n = someDate.toLocaleString(); 不會讀到 somedate加上的時差            
+            // var local_date= moment(someDate).format('YYYY-MM-DD HH:mm:ss'); //不會讀到 somedate加上的時差
+            // var local_date= moment.utc(someDate).format('YYYY-MM-DD HH:mm:ss'); //!!!變成-0800小時
+            // var local_date= moment().utcOffset(someDate).format('YYYY-MM-DD HH:mm:ss'); //讀不到時間物件的格式
+            // var local_date= moment().utcOffset(n).format('YYYY-MM-DD HH:mm:ss');//變成現在時間了OAO
+            //document.write('<small class=" my-auto text-muted" >'+local_date+'</small>');
+        });
+        
+    </script>
+    
+</body>
+
+</html>

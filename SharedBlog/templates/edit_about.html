@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mb-4">
+        <h3 class="text-info text-center">Introduce yourself !</h3>
+</div>
+
+<!--如果method是get，action的url是不能帶參數的-->
+<!--如果采用GET方式，那么action url中参数都会被丢弃，提交时候只会把form中的数据拼接在url向服务器提交；
+但是POST的方式则不会这样，它会按照action指定的url进行提交数据，包含url后面跟着的参数和参数值-->
+<form action="/about/edit" method="POST">
+<div class = " form-group pt-2 pb-3">
+    <div class="mb-2">
+        <label >Change Blog Title</label> 
+        <input class="form-control" type="text" name="set_title" maxlength="100" value="{{old_title}}"> <!--要有form-control才會在label下面-->
+    </div>
+    <div class="mb-2">
+        <label >Edit Author Name</label>
+        <input class=" form-control" type="text" name="edit_author" maxlength="50" value="{{old_author}}">
+    </div> 
+    <div class="mb-2">
+        <label >Edit About</label>
+        <textarea class=" form-control"  rows="6" name="edit_about" maxlength="21844">{{old_about}}</textarea> 
+        <!--<input type="text" name="edit_about" value={{old_about}}>-->
+    </div>
+    
+    <div class="mt-3 d-flex flex-row justify-content-center">
+        <input class="btn btn-info" type="submit" name="edit_submit" value="Submit" >
+    </div>
+</div>
+</form>
+
+
+
+{% endblock %}

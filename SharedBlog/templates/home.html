@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<main class="container mb-4">
+        <header>
+            <h1 class = "text-center text-uppercase  text-info font-weight-bold">
+                {{ user.blog_title }}
+            </h1>
+        </header>
+</main>
+
+{% if if_owner(user, current_user) %}
+<div class="container mt-2">
+    <div class="d-flex flex-row justify-content-around">
+        <div class="col-md-3 text-center font-weight-bold">
+            <div class="py-3 px-1 bg-light border border-info rounded"><a class="text-info" href="{{ url_for('blogs.add_post')}}">ADD POST</a></div>
+        </div>
+        <div class="col-md-3 text-center font-weight-bold">
+            <div class="py-3 px-1 bg-light border border-info rounded"><a class="text-info" href="{{ url_for('blogs.manage_post')}}">MANAGE</a></div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="list_group mt-4 mb-5">
+    {% for i in posts | reverse %}
+    <div class="list-group-item list-group-item-action flex-column" >
+        <div class="d-flex w-100 justify-content-between">                
+                <h5 class="mb-1">
+                    <a class="text-info" href="{{ url_for('blogs.show_post', post_id=i.id)}}">{{ i.title }}</a>
+                </h5>
+                <div >
+                    <small class="text-muted article_time_stamp">{{ i.timestamp }}</small>
+                </div>   
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

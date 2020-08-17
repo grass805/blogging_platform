@@ -1,0 +1,165 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<body>
+        
+<div class="container mb-5">
+        <h3 class="text-info">Manage posts</h3>
+</div>
+
+
+
+<div class="table-responsive table-responsive-sm table-responsive-md ">
+<table class="table " id="table_id">
+    <thead class="thead-light">
+      <tr>
+        <!--隱藏: style="display:none;" style="visibility:hidden" style=\"display:none\"-->
+        <th scope="col" style="display:none;">id</th>
+        <th scope="col">title</th>
+        <th scope="col">category</th>
+        <th scope="col" class="article_time_stamp">timestamp</th>
+        <th scope="col" ><span style="display:none;">EDIT</span></th>
+        <th scope="col" ><span style="display:none;">DELETE</span></th>
+        <th scope="col" ><span style="display:none;">checkbox</span></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% set n=0 %} 
+        {% for i in data_frompy %}
+        <tr>
+            <td style="display:none;">{{ i.id }}</td>
+            <td class="text-nowrap">{{ i.title }}</td>
+            <!--一直pop第0個-->
+            <td class="text-nowrap">{{ list_cate.pop(n) }}</td>
+            <td class="text-nowrap article_time_stamp">{{ i.timestamp }}</td>
+            <td><input type="button" id="edit" value="EDIT"></td>
+            <td><input type="submit" value="DELETE"></td>
+            <td><input type="checkbox" name="checkbox_n"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div class="container">
+<div class="d-flex flex-row justify-content-start  pt-5 pb-5">
+    <input type="button" id="delete_func" value="Delete Selected" class="btn btn-secondary">
+</div>
+</div>
+<!--
+<div>
+    <h3>select articles to delete</h3>
+    <p><input type="button" id="delete_func" value="Delete Selected" class="btn btn-secondary"></p>
+</div>
+-->
+
+
+<!--批量刪除按鈕-->
+<script>
+    (function()
+    {
+        //<!--定义id是delete_func的按钮在点击后，产生下面的function功能-->
+        $('input[id="delete_func"]').on('click', function()
+        {
+            var node = document.getElementsByName("checkbox_n");
+            var tab = document.getElementById("table_id");
+            //var res = new Array();
+            var res2=[];
+            
+            for (var i = 0; i< node.length; i++)
+            {
+                if (node[i].checked)
+                {
+                    res2.push(tab.rows[i+1].cells[0].innerHTML);
+                    //res[i] = tab.rows[i+1].cells[0].innerHTML     //<!--row[0]是表標籤行，row[1]開始才是資料行，cells[0]是id, cells[1]是title-->
+                }
+                //else
+                //{res[i] = 0}
+            }
+            var data = { "to_delete":JSON.stringify(res2) };
+            alert('selected posts deleted !')
+            $.ajax({
+　　                    type: "get",
+　　                    url: "{{ url_for('blogs.delete_post') }}",   //f12上，會自動改成 url: "/manage/delete"
+　　                    data: data,
+　　                    dataType: "json",
+                        //error:function(xhr){alert( 'STATUS: ' + xhr.status + " " + xhr.statusText);}, xhr就是XMLHttpResponse
+                        success: function (data, textStatus) {console.log("success :"+ data );},
+                        error: function (XMLHttpResponse, textStatus, errorThrown) {
+                                        console.log("1 error message,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState);
+                                        console.log("2 error message,XMLHttpResponse.status:"+XMLHttpResponse.status);
+                                        console.log("3 error message,textStatus:"+textStatus);
+                                        console.log("4 error message,errorThrown:"+errorThrown);
+                                        },
+                        complete: function () { window.location.href="/manage"; }
+                        //XMLHttpRequest就是data
+                    });
+        });
+    })();
+</script>
+
+<!--刪除按鈕-->
+<script>
+        (function()
+        {
+            //<!--定义属性是submit的按钮在点击后，产生下面的function功能-->
+            $('input[type="submit"]').on('click', function()
+            {
+                //<!--event.srcElement 捕獲當前事件作用的對象: submit按鈕-->
+                //<!--event.srcElement.parentElement當前作用對象的父級對象: td -->
+                var td = event.srcElement.parentElement;
+                var rownum = td.parentElement.rowIndex;
+                //<!--var tr=event.srcElement.parentElement.parentElement.rowIndex;//获取每一行的索引-->
+                
+                //<!--获取html表格元素 -->
+                var tab = document.getElementById("table_id");
+                var res = [];
+                res.push(tab.rows[rownum].cells[0].innerHTML);
+                //or
+                //var res = tab.rows[rownum].cells[0].innerHTML;
+                //JSON.stringify( [res] )
+                var data = { "to_delete": JSON.stringify(res) };
+                alert("post deleted！")
+                $.ajax({
+    　　                    type: "get",
+    　　                    url: "{{ url_for('blogs.delete_post') }}",
+    　　                    data: data,
+    　　                    dataType: "json",
+                            complete: function(){ window.location.href="/manage" ;}
+　　                    });
+            });
+        })();
+    </script>
+
+
+
+
+    <script>
+        (function()
+        {
+            //<!--定义属性是button的按钮在点击后，产生下面的function功能-->
+            $('input[id="edit"]').on('click', function()
+            {
+                var td = event.srcElement.parentElement;
+                var rownum = td.parentElement.rowIndex;
+                var tab = document.getElementById("table_id");
+
+                var res = tab.rows[rownum].cells[0].innerHTML;
+                var data = { "post_id": JSON.stringify(res) };
+                $.ajax({
+    　　                    type: "get",
+    　　                    url: "{{ url_for('blogs.go_post') }}",
+    　　                    data: data,
+    　　                    dataType: "json",
+                            complete: function(){ window.location.href="/manage/edit/"+res;}
+                            //<!-- function(response) response:server返回的訊息
+　　                    });
+            });
+        })();       
+    </script>
+
+</body>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container col-md-10">
+        <header class="d-flex flex-column justify-content-around mt-5">
+            <h1 class = " display-5 my-4 float-right">
+                <a href="{{url_for('index')}}" class="text-important">SharedBlog</a>
+            </h1>
+            <div class="d-flex flex-row justify-content-start align-items-baseline">
+            <h1 class="col-md-3 text-center display-4 my-4 "><strong class="text-dark">Login</strong></h1>
+            <h3 class="col-md-5 text-muted text-center my-2">Post anything!</h3>
+            </div>
+        </header>
+</main>
+
+<div class="container col-md-3 mt-5 ">
+<!-- <form action="資料傳送目的地" method="資料傳遞方式"> -->
+    
+    <form action="/login" method="POST">
+        <!--https://www.w3school.com.cn/tags/att_input_type.asp-->
+        <!-- input type: text-单行的输入字段 password-字段中的字符被掩码 submit-提交按钮会把表单数据发送到服务器-->
+        <!-- input name: 給予此input的變數名稱-->
+        <!-- input value: 設定預設值-->
+        <div class="d-flex flex-column ">
+                <div class="text-dark font-weight-bold d-flex flex-row justify-content-between mb-2">
+                    User Name  <input type="text" name="input_u" maxlength="20" required>
+                </div>
+                <div class="text-dark font-weight-bold d-flex flex-row justify-content-between mb-5">
+                    Password  <input  type="password" name="input_p" maxlength="100" required>
+                </div>
+                <div class="mt-5 d-flex flex-row justify-content-center">
+                <!--Remember Me<input type="checkbox" name="html_checkbox" >-->
+                    <input class="btn btn-dark" type="submit" name="login_submit" value="Submit" >
+                </div>
+        </div>
+    </form>
+    
+</div>
+
+<div class="container col-md-8 mt-5">
+    {% if error %}
+        <p class="text-danger text-center">Error message: {{ error }}</p>
+    {% endif %}
+</div>
+    <!--
+    {% for i in get_flashed_messages() %}
+        <div class=flash >flash: {{ i }}</div>
+    {% endfor %}
+    -->
+{% endblock %}
