@@ -4,13 +4,6 @@
 a blogging platform allows users to create their own blogs and visit other's blogs.
 built with flask framework and deployed to AWS-EC2.
 
-functions:
--sign up and log in
--add and edit posts
--edit about, change blog title
--manage posts
--manage categories
--....to do
 
 
 ## Result
