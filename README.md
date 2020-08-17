@@ -2,6 +2,7 @@
 
 ## Overview
 a blogging platform allows users to create their own blogs and visit other's blogs.
+
 built with flask framework and deployed to AWS-EC2.
 
 
