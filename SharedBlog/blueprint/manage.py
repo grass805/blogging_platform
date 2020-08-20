@@ -265,6 +265,8 @@ def select_cate(post_id):
 @blog.route('/manage/cate/delete', methods=['GET'])
 def delete_cate():
     if 'user_key' in session :
+        cur_username = session['user_key'] #值是username
+        cur_user = t_user.query.filter_by(username=cur_username).first()
         data_back = request.values.get("delete_cate") 
         print('data_back', data_back)
         data_list = eval(data_back) #通过eval方法将json格式转化成list
@@ -285,7 +287,7 @@ def delete_cate():
         else:
             if cate_posts :
                 for i in cate_posts:
-                    uncategorized = t_cate.query.filter_by(cate='uncategorized').first()
+                    uncategorized = t_cate.query.filter_by(cate='uncategorized', user_id=cur_user.id).first()
                     i.cate_id = uncategorized.id
                     db.session.commit()
                 db.session.delete(cate)
