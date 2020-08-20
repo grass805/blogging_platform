@@ -24,10 +24,10 @@
         <!-- input value: 設定預設值-->
         <div class="d-flex flex-column ">
                 <div class="text-dark font-weight-bold d-flex flex-row justify-content-between mb-2">
-                    Set User Name  <input type="text" name="create_u" maxlength="20" required>
+                    Set User Name  <input type="text" name="create_u" maxlength="20" onkeyup="this.value=this.value.replace(/[^\w_]/g,'')" required>
                 </div>
                 <div class="text-dark font-weight-bold d-flex flex-row justify-content-between mb-5">
-                    Set Password  <input type="password" name="create_p" maxlength="100" required>
+                    Set Password  <input type="password" name="create_p" maxlength="100" onkeyup="this.value=this.value.replace(/[^\w_]/g,'')" required>
                 </div>
                 <div class="mt-5 d-flex flex-row justify-content-center">
                 <!--Remember Me<input type="checkbox" name="html_checkbox" >-->
